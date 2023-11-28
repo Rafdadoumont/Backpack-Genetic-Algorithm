@@ -1,25 +1,28 @@
 package org.example;
 
-import java.util.Arrays;
-
 public class Main {
     public static void main(String[] args) {
-
+        int generation = 0;
         Population population = new Population();
+        boolean found = false;
 
-        for (Individual individual: population.getIndividuals()) {
-            System.out.println(FitnessCalculator.calculate(individual));
-            System.out.println(Arrays.toString(individual.getGenes()));
-            System.out.println();
+        while(!found) {
+            Individual fittest = population.getFittest();
+            Individual secondFittest = population.getSecondFittest();
+
+            Individual offspring = NaturalSelection.getOffspring(fittest, secondFittest);
+            population.addOffspring(offspring);
+            generation++;;
+
+            int fitness = Calculator.calculateFitness(offspring);
+            System.out.println("Current fitness: " + fitness);
+
+            if (fitness == 1090) {
+                found = true;
+            }
         }
 
-        System.out.println("Fittest:");
-        System.out.println(FitnessCalculator.calculate(population.getFittest()));
-        System.out.println(Arrays.toString(population.getFittest().getGenes()));
-        System.out.println();
-
-        System.out.println("Second fittest:");
-        System.out.println(FitnessCalculator.calculate(population.getSecondFittest()));
-        System.out.println(Arrays.toString(population.getSecondFittest().getGenes()));
+        System.out.println("Total generations: " + generation);
+        System.out.println(population);
     }
 }

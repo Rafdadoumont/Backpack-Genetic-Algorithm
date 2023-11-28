@@ -5,9 +5,32 @@ import java.util.Random;
 
 public class Individual {
     public static final int GENES_COUNT = 16;
+    public static final int MAX_WEIGHT = 100;
+    public static final int MAX_VOLUME = 50;
+
     private byte[] genes = new byte[GENES_COUNT];
 
     public Individual() {
+        boolean valid = false;
+
+        while (!valid) {
+            generateGenes();
+            if ((Calculator.calculateWeight(this) <= 100) &&
+                   Calculator.calculateVolume(this) <= 50) {
+                    valid = true;
+            }
+        }
+    }
+
+    public Individual(byte[] genes) {
+        this.genes = genes;
+    }
+
+    public byte[] getGenes() {
+        return genes;
+    }
+
+    private void generateGenes() {
         Random random = new Random();
 
         for (byte i = 0; i < GENES_COUNT; i++) {
@@ -15,24 +38,8 @@ public class Individual {
         }
     }
 
-    public byte[] getGenes() {
-        return genes;
-    }
-
-    public void setGenes(byte[] genes) {
-        this.genes = genes;
-    }
-
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Individual that = (Individual) o;
-        return Arrays.equals(genes, that.genes);
-    }
-
-    @Override
-    public int hashCode() {
-        return Arrays.hashCode(genes);
+    public String toString() {
+        return Arrays.toString(genes);
     }
 }
