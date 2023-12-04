@@ -25,8 +25,11 @@ public class Calculator {
         byte[] genes = individual.getGenes();
         int fitness = 0;
 
-        for (int i = 0; i < Individual.GENES_COUNT; i++) {
-            fitness += genes[i] == 1 ? data[i][0] : 0;
+        if ((Calculator.calculateWeight(individual) <= Individual.MAX_WEIGHT) &&
+                Calculator.calculateVolume(individual) <= Individual.MAX_VOLUME) {
+            for (int i = 0; i < Individual.GENES_COUNT; i++) {
+                fitness += genes[i] == 1 ? data[i][0] : 0;
+            }
         }
         return fitness;
     }

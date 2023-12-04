@@ -1,7 +1,5 @@
 package org.example;
 
-import java.util.Arrays;
-
 public class Population {
     public static final int POPULATION_SIZE = 10;
 

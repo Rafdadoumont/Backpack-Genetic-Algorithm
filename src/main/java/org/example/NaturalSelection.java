@@ -3,30 +3,22 @@ package org.example;
 import java.util.Random;
 
 public class NaturalSelection {
+    private static final double UNIFORM_CROSSOVER_PROBABILITY = 0.5;
 
     public static Individual getOffspring(Individual father, Individual mother) {
-        boolean valid = false;
-        Individual individual = null;
-
-        while (!valid) {
-            individual = getMutation(getCrossover(father, mother));
-            if ((Calculator.calculateWeight(individual) <= 100) &&
-                    Calculator.calculateVolume(individual) <= 50) {
-                valid = true;
-            }
-        }
-
-        return individual;
+        return getMutation(getUniformCrossover(father, mother));
     }
 
-
-    private static byte[] getCrossover(Individual father, Individual mother) {
+    private static byte[] getUniformCrossover(Individual father, Individual mother) {
         Random random = new Random();
-        int crossOverPoint = random.nextInt(Individual.GENES_COUNT);
-        byte[] newGenes = father.getGenes().clone();
+        byte[] newGenes = new byte[Individual.GENES_COUNT];
 
-        for (int i = 0; i < crossOverPoint; i++) {
-            newGenes[i] = mother.getGenes()[i];
+        for (int i = 0; i < Individual.GENES_COUNT; i++) {
+            if (random.nextDouble() <= UNIFORM_CROSSOVER_PROBABILITY) {
+                newGenes[i] = father.getGenes()[i];
+            } else {
+                newGenes[i] = mother.getGenes()[i];
+            }
         }
 
         return newGenes;

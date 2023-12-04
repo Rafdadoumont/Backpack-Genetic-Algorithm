@@ -11,15 +11,7 @@ public class Individual {
     private byte[] genes = new byte[GENES_COUNT];
 
     public Individual() {
-        boolean valid = false;
-
-        while (!valid) {
-            generateGenes();
-            if ((Calculator.calculateWeight(this) <= 100) &&
-                   Calculator.calculateVolume(this) <= 50) {
-                    valid = true;
-            }
-        }
+        generateGenes();
     }
 
     public Individual(byte[] genes) {
@@ -36,6 +28,10 @@ public class Individual {
         for (byte i = 0; i < GENES_COUNT; i++) {
             genes[i] = (byte) Math.abs(random.nextInt() % 2);
         }
+    }
+
+    public boolean includesItem(int item) {
+        return genes[item] == 1;
     }
 
     @Override
